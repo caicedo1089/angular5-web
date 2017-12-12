@@ -1,0 +1,112 @@
+<!-- Menú-->
+<ul class="nav nav-pills nav-justified">
+  <ng-container *ngFor='let plane of arrPlanes'>
+    <li  role='presentation' [ngClass]="{active: plane.active}">
+      <a [ngStyle]="{cursor: (!plane.active) ? 'pointer' : 'auto'}" (click)="changeMenu(plane.id)">{{plane.name}}</a>
+    </li>
+  </ng-container>
+</ul>
+
+<!-- Formulario -->
+<div class='container'>
+  <div class="page-header">
+    <h1>Hola, bienvenido, sabemos que quieres viajar en un <b>{{planeNow.name}}</b>, favor diligenciar el siguiente formulario:</h1>
+  </div>
+  
+  <div class="row">
+      <form class="form-horizontal" #myForm="ngForm" (ngSubmit)="registerUser(myForm)">
+
+        <div class="form-group" [ngClass]="{'has-error': name.errors && (name.dirty || name.touched)}">
+          <label for="userName" class="col-sm-2 control-label">Nombre Completo</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="userName" name='name' #name='ngModel' [(ngModel)]="user.name" placeholder="Pedro Caicedo" ngModel required pattern="^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$"/>
+            <span class="help-block" *ngIf="name.errors">
+              <ul>
+                <li *ngIf="name.errors.required && (name.dirty || name.touched)">
+                  {{msgErrors.required}}
+                </li>
+                <li *ngIf="name.errors.pattern && (name.dirty || name.touched)">
+                  {{msgErrors.name}}
+                </li>
+              </ul>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': email.errors && (email.dirty || email.touched)}">
+          <label for="userEmail" class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="userEmail" name='email' #email='ngModel' [(ngModel)]="user.email" placeholder="pedro@cominio.com" ngModel required email/>
+            <span class="help-block" *ngIf="email.errors">
+              <ul>
+                <li *ngIf="email.errors.required && (email.dirty || email.touched)">
+                  {{msgErrors.required}}
+                </li>
+                <li *ngIf="email.errors.email && (email.dirty || email.touched)">
+                  {{msgErrors.email}}
+                </li>
+              </ul>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': cellphone.errors && (cellphone.dirty || cellphone.touched)}">
+          <label for="userCellphone" class="col-sm-2 control-label">Celular</label>
+          <div class="col-sm-10">
+            <input type="tel" class="form-control" id="userCellphone" name='cellphone' #cellphone='ngModel' [(ngModel)]="user.cellphone" placeholder="3125591592" ngModel required pattern="[1-9]{1}[0-9]{9,9}"/>
+            <span class="help-block" *ngIf="cellphone.errors">
+              <ul>
+                <li *ngIf="cellphone.errors.required && (cellphone.dirty || cellphone.touched)">
+                  {{msgErrors.required}}
+                </li>
+                <li *ngIf="cellphone.errors.pattern && (cellphone.dirty || cellphone.touched)">
+                  {{msgErrors.cellphone}}
+                </li>
+              </ul>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group" [ngClass]="{'has-error': (age.errors || !validateMinMax(age.value, 18, 100)) && (age.dirty || age.touched)}">
+          <label for="userAge" class="col-sm-2 control-label">Edad</label>
+          <div class="col-sm-10">
+            <input type="number" class="form-control" id="userAge" name='age' #age='ngModel' [(ngModel)]="user.age" placeholder="18" ngModel required min='18' max='100'/>
+            <span class="help-block" *ngIf="age.errors || !validateMinMax(age.value, 18, 100)">
+              <ul>
+                <li *ngIf="age.errors && age.errors.required && (age.dirty || age.touched)">
+                  {{msgErrors.required}}
+                </li>
+                <li *ngIf="!validateMinMax(age.value, 18, 100) && (age.dirty || age.touched)">
+                  {{msgErrors.age}}
+                </li>
+              </ul>
+            </span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-primary" [disabled]="myForm.invalid || !validateMinMax(age.value, 18, 100) " >Enviar</button>
+              <a class="btn btn-default" (click)="resetUser()">Cancelar</a>
+          </div>
+        </div>
+        
+      </form>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Respuesta del Servidor</h4>
+        </div>
+        <div class="modal-body alert-success">
+            <span class="glyphicon glyphicon-thumbs-up"></span> Tu información fue enviada con éxito, estaremos en contacto contigo.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

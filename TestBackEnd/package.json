@@ -1,0 +1,15 @@
+{
+  "name": "back-end-blacksip",
+  "version": "1.0.0",
+  "description": "El back de la prueba ara front end",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pedro Caicedo",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
+}
